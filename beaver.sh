@@ -7,6 +7,6 @@ if [ -z "$file_name" ]; then
 fi
 
 db_name=$(zenity --entry --title="BEAVER" --text="Please enter the database name:")
-        python3 /home/odoo/src/support-tools/beaver.py $file_name $db_name
+        python3 ~/Beaver-Tools/beaver.py $file_name $db_name
         zenity --notification --text "Jobs Done"
 

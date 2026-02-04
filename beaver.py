@@ -1,12 +1,20 @@
 import sys
+import os
+import datetime
+
+
 
 #filename = input("Enter log file name: ")
 filename = sys.argv[1]
 dbname = sys.argv[2]
 print(filename)
+date = datetime.date.today()
+date = str(date)
 #dbname = input("Enter database name: ")
 print("Filtering ", filename, "for the database ", dbname)
-newfile = open("/home/odoo/Downloads/filtered.txt", "a")
+path = "~/Beaver-Tools/" + dbname + date + ".txt"
+path = os.path.expanduser(path)
+newfile = open(path, "w")
 flag = False
 with open(filename) as old:
     for line in old:
