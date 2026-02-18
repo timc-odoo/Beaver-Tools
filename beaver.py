@@ -1,17 +1,18 @@
 import sys
 import os
 import datetime
+from rapidfuzz import fuzz
 
 
 
-#filename = input("Enter log file name: ")
 filename = sys.argv[1]
 dbname = sys.argv[2]
 print(filename)
 print(dbname)
 date = datetime.date.today()
 date = str(date)
-#dbname = input("Enter database name: ")
+cur_year = datetime.date.today().year
+cur_year = str(cur_year)
 print("Filtering ", filename, "for the database ", dbname)
 path = "~/Beaver-Tools/" + dbname + date + ".txt"
 path = os.path.expanduser(path)
@@ -19,13 +20,18 @@ newfile = open(path, "w")
 flag = False
 with open(filename) as old:
     for line in old:
-        cur_line = line
-#        if dbname in cur_line or flag is True:
-        if "2026" in cur_line:
-            #print(cur_line)
-            flag = False
-        if "ERROR" in cur_line and dbname in cur_line:
-            flag = True
-            #print(flag)
-        if dbname in cur_line or flag is True:
-            newfile.write(cur_line)
+        if(len(line) == 0):
+           break
+        else:
+           cur_line = line
+           logyear = cur_line[:4]
+           yearscore = fuzz.partial_token_set_ratio(logyear, cur_year, score_cutoff=51)
+           #if(yearscore != 0.0 or yearscore != 100.0):
+           #    print(cur_line, yearscore)
+           cur_line = cur_line.replace('"', '\'')
+           if yearscore > 51:
+               flag = False
+           if "ERROR" in cur_line and dbname in cur_line:
+               flag = True
+           if dbname in cur_line or flag is True:
+               newfile.write(line)
