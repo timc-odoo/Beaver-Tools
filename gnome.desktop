@@ -1,0 +1,8 @@
+#!/usr/bin/env xdg-open
+
+ [Desktop Entry]
+Type=Application
+Icon=/home/odoo/Beaver-Tools/beaver.jpg
+Name=The Beaver
+Exec= ~/Beaver-Tools/beaver.sh
+
