@@ -26,12 +26,13 @@ with open(filename) as old:
            cur_line = line
            logyear = cur_line[:4]
            yearscore = fuzz.partial_token_set_ratio(logyear, cur_year, score_cutoff=51)
+           linescore = fuzz.partial_token_set_ratio(dbname, cur_line, score_cutoff=90)
            #if(yearscore != 0.0 or yearscore != 100.0):
            #    print(cur_line, yearscore)
            cur_line = cur_line.replace('"', '\'')
            if yearscore > 51:
                flag = False
-           if "ERROR" in cur_line and dbname in cur_line:
+           if "ERROR" in cur_line and linescore >= 90:
                flag = True
-           if dbname in cur_line or flag is True:
+           if linescore>=90 or flag is True:
                newfile.write(line)
